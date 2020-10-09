@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ngacrregistry.azurecr.io
+        username: ${{ secrets.acr_ngacrregistry_username }}
+        password: ${{ secrets.acr_ngacrregistry_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/HoctoberfestSG" -f  "HoctoberfestSG/dockerfile" -t ngacrregistry.azurecr.io/hocktoberfestcluster:${{ github.sha }}
+        docker push ngacrregistry.azurecr.io/hocktoberfestcluster:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_hocktoberfestcluster_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep hocktoberfest | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace hocktoberfest`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: hocktoberfest
+        container-registry-url: ngacrregistry.azurecr.io
+        container-registry-username: ${{ secrets.acr_ngacrregistry_username }}
+        container-registry-password: ${{ secrets.acr_ngacrregistry_password }}
+        secret-name: hocktoberfesdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: hocktoberfest
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          ngacrregistry.azurecr.io/hocktoberfestcluster:${{ github.sha }}
+        imagepullsecrets: |
+          hocktoberfesdockerauth
