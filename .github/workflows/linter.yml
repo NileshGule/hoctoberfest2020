@@ -4,7 +4,7 @@
 ## Linter GitHub Actions ##
 ###########################
 ###########################
-name: Run GitHub SuperLinter
+name: Lint Code Base
 
 #
 # Documentation:
@@ -26,7 +26,7 @@ on:
 jobs:
   build:
     # Name the Job
-    name: Run SuperLinter on Code Base
+    name: Lint Code Base
     # Set the agent to run on
     runs-on: ubuntu-latest
 
