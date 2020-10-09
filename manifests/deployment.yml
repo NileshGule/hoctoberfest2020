@@ -1,4 +1,4 @@
-apiVersion : apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "hocktoberfestcluster-1456"
@@ -16,4 +16,4 @@ spec:
         - name: "hocktoberfestcluster-1456"
           image: "ngacrregistry.azurecr.io/hocktoberfestcluster"
           ports:
-          - containerPort: 80
+            - containerPort: 8080

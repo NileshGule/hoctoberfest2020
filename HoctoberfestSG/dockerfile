@@ -4,7 +4,7 @@ WORKDIR /app
 
 # COPY NuGet.config ./
 COPY HoctoberfestSG.csproj ./
-COPY NuGet.config ./
+# COPY NuGet.config ./
 
 RUN dotnet restore
 
