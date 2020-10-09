@@ -18,7 +18,7 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim
 
 WORKDIR /
 
-COPY --from=build-env /releaseOutput ./
+COPY --from=build-env /app/releaseOutput ./
 
 #run the container as non-root user
 USER 1000
