@@ -16,4 +16,4 @@ spec:
         - name: "hocktoberfestcluster-1456"
           image: "ngacrregistry.azurecr.io/hocktoberfestcluster"
           ports:
-            - containerPort: 8080
+            - containerPort: 80
