@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "hocktoberfestcluster-1456"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "hocktoberfestcluster-1456"
+  template:
+    metadata:
+      labels:
+        app: "hocktoberfestcluster-1456"
+    spec:
+      containers:
+        - name: "hocktoberfestcluster-1456"
+          image: "ngacrregistry.azurecr.io/hocktoberfestcluster"
+          ports:
+          - containerPort: 80
