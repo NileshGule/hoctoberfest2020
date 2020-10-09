@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: "hocktoberfestcluster-1456"
-    labels:
-        app: "hocktoberfestcluster-1456"
+  name: "hocktoberfestcluster-1456"
+  labels:
+    app: "hocktoberfestcluster-1456"
 spec:
-    type: LoadBalancer
-    ports:
-    - port: 80
-      targetPort: 80
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
       protocol: TCP
       name: http
-    selector:
-        app: "hocktoberfestcluster-1456"
+  selector:
+    app: "hocktoberfestcluster-1456"
